@@ -50,6 +50,12 @@ function jsonToDataObjs(json) {
 function makeEchartsOptions(series) {
   return {
     backgroundColor: "#000",
+    title: {
+      text: "COVID-19 Globe View",
+      textStyle: {
+        color: "lightgrey"
+      }
+    },
     visualMap: {
       textStyle: {
         color: "white"
@@ -68,7 +74,8 @@ function makeEchartsOptions(series) {
           "rgba(241, 90, 34, 0.9)",
           "rgba(240, 52, 52, 0.9)"
         ]
-      }
+      },
+      zlevel: 11
     },
     globe: {
       viewControl: {
@@ -130,5 +137,9 @@ window.addEventListener("load", () => {
     .then(series => {
       var chart = echarts.init(document.getElementById("app"));
       chart.setOption(makeEchartsOptions(series));
+      window.onresize = function() {
+        console.log("resizing");
+        chart.resize();
+      };
     });
 });

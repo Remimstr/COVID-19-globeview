@@ -28,20 +28,48 @@ function jsonToDataObjs(json) {
     // longitude, latitude, count
     const province = entry[0];
     const country = entry[1];
+    const longitude = parseFloat(entry[7]);
+    const latitude = parseFloat(entry[6]);
+
+    const confirmed = parseInt(entry[3]);
+    const deaths = parseInt(entry[4]);
+    const recovered = parseInt(entry[5]);
+
+    const sum = confirmed + deaths + recovered;
 
     return {
       name: province ? `${province}, ${country}` : country,
-      value: [parseFloat(entry[7]), parseFloat(entry[6])],
-      confirmed: parseInt(entry[3]),
-      deaths: parseInt(entry[4]),
-      recovered: parseInt(entry[5])
+      value: [longitude, latitude, 0, sum],
+      confirmed,
+      deaths,
+      recovered
     };
   });
 }
 
-function makeEchartsOptions(chart, series) {
-  chart.setOption({
+function makeEchartsOptions(series) {
+  return {
     backgroundColor: "#000",
+    visualMap: {
+      textStyle: {
+        color: "white"
+      },
+      pieces: [
+        { min: 0, max: 10 },
+        { min: 100, max: 1000 },
+        { min: 1000, max: 10000, label: "1k - 10k" },
+        { min: 10000, max: 100000, label: "10k - 100k" },
+        { min: 100000, max: 1000000, label: "100k - 1M" },
+        { min: 10000000, label: "1M+" }
+      ],
+      inRange: {
+        color: [
+          "rgba(245, 171, 53, 0.9)",
+          "rgba(241, 90, 34, 0.9)",
+          "rgba(240, 52, 52, 0.9)"
+        ]
+      }
+    },
     globe: {
       viewControl: {
         autoRotate: false
@@ -60,7 +88,7 @@ function makeEchartsOptions(chart, series) {
       }
     },
     series
-  });
+  };
 }
 
 function dataScaleCalculation(point) {
@@ -77,24 +105,30 @@ window.addEventListener("load", () => {
       return {
         type: "scatter3D",
         coordinateSystem: "globe",
-        symbolSize: (_, params) => dataScaleCalculation(params.data.confirmed),
+        symbolSize: data => dataScaleCalculation(data[3]),
         label: {
           position: "top",
           formatter: params => {
-            const { confirmed, deaths, recovered } = params.data;
-            return `${params.name}: ${confirmed + deaths + recovered} cases`;
+            return `${params.name}:
+					${params.data.confirmed} cases
+					${params.data.recovered} recovered
+					${params.data.deaths} deaths`;
+          },
+          textStyle: {
+            fontSize: 16
           }
         },
         itemStyle: {
-          color: "red",
-          opacity: 0.9
+          color: "darkred",
+          opacity: 1
         },
-        blendMode: "overlap",
+        zlevel: 10,
+        blendMode: "source-over",
         data
       };
     })
     .then(series => {
       var chart = echarts.init(document.getElementById("app"));
-      makeEchartsOptions(chart, series);
+      chart.setOption(makeEchartsOptions(series));
     });
 });

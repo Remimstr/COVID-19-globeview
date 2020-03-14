@@ -37,13 +37,19 @@ export function aboutSection() {
           link: "https://github.com/CSSEGISandData/COVID-19",
           linkText: "github"
         })
-      ),
-        aboutContent.append(
-          textPlusLink("Visualization: Echarts", {
-            link: "https://www.echartsjs.com/en/index.html",
-            linkText: "website"
-          })
-        );
+      );
+      aboutContent.append(
+        textPlusLink("Visualization: Echarts", {
+          link: "https://www.echartsjs.com/en/index.html",
+          linkText: "website"
+        })
+      );
+      aboutContent.append(
+        textPlusLink("Feedback / Issues?", {
+          link: "https://github.com/Remimstr/COVID-19-globeview/issues",
+          linkText: "github"
+        })
+      );
       aboutBox.append(aboutContent);
     }
   });

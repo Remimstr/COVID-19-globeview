@@ -5,6 +5,8 @@
 import echarts from "echarts";
 import { scatter3D } from "echarts-gl";
 import WorldTopology from "./world.topo.bathy.200401.jpg";
+import { aboutSection } from "./aboutSection.js";
+import "./style.css";
 
 const covidStats =
   "https://api.github.com/repos/CSSEGISandData/COVID-19/contents/csse_covid_19_data/csse_covid_19_daily_reports/03-13-2020.csv";
@@ -104,6 +106,7 @@ function dataScaleCalculation(point) {
 }
 
 window.addEventListener("load", () => {
+  aboutSection();
   fetch(covidStats)
     .then(response => response.json())
     .then(data => processCSVData(atob(data.content)))
@@ -129,7 +132,6 @@ window.addEventListener("load", () => {
           color: "darkred",
           opacity: 1
         },
-        zlevel: 10,
         blendMode: "source-over",
         data
       };
@@ -138,7 +140,6 @@ window.addEventListener("load", () => {
       var chart = echarts.init(document.getElementById("app"));
       chart.setOption(makeEchartsOptions(series));
       window.onresize = function() {
-        console.log("resizing");
         chart.resize();
       };
     });

@@ -1,0 +1,43 @@
+body {
+	margin: 0px;
+}
+
+#app {
+	height: 100vh;
+	width: 100%;
+}
+
+#about {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0px 10px;
+	background-color: lightgrey;
+	border-radius: 4px 4px 0px 0px;
+	cursor: pointer !important;
+}
+
+.selectable:hover {
+	border: 1px;
+	height: 30px;
+}
+
+#about > h4 {
+	font-family: sans-serif;
+	color: black;
+	margin: 0px 10px;
+}
+
+#about-content {
+	margin: 0px 10px;
+	font-family: sans-serif;
+}
+
+#about-content > .content-line {
+	display: flex;
+	justify-content: space-between;
+}
+
+.content-line> a {
+	margin-left: 10px;
+}

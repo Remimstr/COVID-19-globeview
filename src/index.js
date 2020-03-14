@@ -5,6 +5,7 @@
 import echarts from "echarts";
 import { scatter3D } from "echarts-gl";
 import WorldTopology from "./world.topo.bathy.200401.jpg";
+import "./serviceWorkerRegistration.js";
 import { aboutSection } from "./aboutSection.js";
 import { returnDataSeries } from "./getData.js";
 import "./style.css";

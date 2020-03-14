@@ -1,3 +1,5 @@
+import papa from "papaparse";
+
 const BASE_ENDPOINT =
   "https://api.github.com/repos/CSSEGISandData/COVID-19/contents/csse_covid_19_data/csse_covid_19_daily_reports/";
 
@@ -20,6 +22,12 @@ function getDates(startDate, stopDate) {
     currentDate = currentDate.addDays(1);
   }
   return dateArray;
+}
+
+async function parseCsv(csv) {
+  return new Promise(function(complete, error) {
+    papa.parse(csv, { complete, error });
+  });
 }
 
 function processCSVData(csv) {
@@ -73,8 +81,11 @@ export async function returnDataSeries() {
     // TODO: Add better error handling here
     if (response.status === "fulfilled" && response.value.status < 300) {
       const data = await response.value.json();
-      const csvContent = processCSVData(atob(data.content));
-      resultsArray.push(jsonToDataObjs(csvContent));
+      const csvContent = await parseCsv(atob(data.content));
+      csvContent.errors.forEach(error =>
+        console.log(`CSV processing error: ${error}`)
+      );
+      resultsArray.push(jsonToDataObjs(csvContent.data.slice(0)));
     }
   }
   return [queryDates, resultsArray];

@@ -5,6 +5,7 @@
 import echarts from "echarts";
 import { scatter3D } from "echarts-gl";
 import WorldTopology from "./world.topo.bathy.200401.jpg";
+import Starfield from "./starfield.jpg";
 import "./serviceWorkerRegistration.js";
 import { aboutSection } from "./aboutSection.js";
 import { returnDataSeries } from "./getData.js";
@@ -14,7 +15,8 @@ function produceOption(data) {
   return {
     visualMap: {
       textStyle: {
-        color: "white"
+        color: "white",
+        fontSize: 14
       },
       pieces: [
         { min: 0, max: 10 },
@@ -53,6 +55,7 @@ function produceOption(data) {
         color: "darkred",
         opacity: 1
       },
+      animation: false,
       blendMode: "source-over",
       data
     }
@@ -74,14 +77,20 @@ function injectToBaseOption(seriesNames, options) {
         top: 60,
         bottom: 120,
         width: 55,
-        loop: false,
         axisType: "category",
         data: seriesNames,
         currentIndex: seriesNames.length - 1,
         orient: "vertical",
         label: {
           position: -12,
-          color: "white"
+          color: "lightgrey",
+          fontSize: 14,
+          fontWeight: "bold",
+          emphasis: {
+            color: "white",
+            fontSize: 14,
+            fontWeight: "bold"
+          }
         },
         controlStyle: {
           itemSize: 24,
@@ -96,10 +105,15 @@ function injectToBaseOption(seriesNames, options) {
         shading: "realistic",
         baseTexture: WorldTopology,
         heightTexture: WorldTopology,
-        displacementScale: 0.03,
+        displacementScale: 0.04,
+        environment: Starfield,
+        realisticMaterial: {
+          roughness: 0.9
+        },
         light: {
           ambient: {
-            intensity: 0.8
+            intensity: 0.8,
+            shadow: true
           },
           main: {
             intensity: 0.8

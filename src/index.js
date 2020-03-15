@@ -8,6 +8,7 @@ import WorldTopology from "./world.topo.bathy.200401.jpg";
 import Starfield from "./starfield.jpg";
 import "./serviceWorkerRegistration.js";
 import { aboutSection } from "./aboutSection.js";
+import { statsSection } from "./statsSection.js";
 import { returnDataSeries } from "./getData.js";
 import "./polyfills.js";
 import "./style.css";
@@ -45,16 +46,8 @@ function produceOption(data) {
       coordinateSystem: "globe",
       symbolSize: data => dataScaleCalculation(data[3]),
       label: {
-        position: "top",
-        formatter: params => {
-          return `${params.name}:
-  ${params.data.confirmed} cases
-  ${params.data.recovered} recovered
-  ${params.data.deaths} deaths`;
-        },
-        textStyle: {
-          fontSize: 16
-        }
+        show: false,
+        formatter: () => ""
       },
       itemStyle: {
         color: "darkred",
@@ -67,7 +60,7 @@ function produceOption(data) {
   };
 }
 
-function injectToBaseOption(seriesNames, options) {
+function injectToBaseOption(seriesNames, currentIndex, options) {
   return {
     baseOption: {
       backgroundColor: "#000",
@@ -79,12 +72,12 @@ function injectToBaseOption(seriesNames, options) {
       },
       timeline: {
         right: 5,
-        top: 60,
+        top: 150,
         bottom: 120,
         width: 55,
         axisType: "category",
         data: seriesNames,
-        currentIndex: seriesNames.length - 1,
+        currentIndex: currentIndex,
         orient: "vertical",
         label: {
           position: -12,
@@ -135,13 +128,40 @@ function dataScaleCalculation(point) {
   return 0;
 }
 
+function buildStatsSection(name, seriesData, index) {
+  const reduceSeriesData = seriesData => name =>
+    seriesData.reduce((acc, curr) => acc + curr[name], 0);
+  const seriesDataReducer = reduceSeriesData(seriesData[index]);
+
+  const confirmed = seriesDataReducer("confirmed");
+  const recovered = seriesDataReducer("recovered");
+  const deaths = seriesDataReducer("deaths");
+
+  statsSection({ name, confirmed, recovered, deaths });
+}
+
 window.addEventListener("load", async () => {
   aboutSection();
   const [seriesNames, seriesData] = await returnDataSeries();
+  const currentIndex = seriesNames.length - 1;
+  // const globalCases =
   const options = seriesData.map(dataSet => produceOption(dataSet));
   var chart = echarts.init(document.getElementById("app"));
-  chart.setOption(injectToBaseOption(seriesNames, options));
+  chart.setOption(injectToBaseOption(seriesNames, currentIndex, options));
 
+  // Build the global cases initially
+  buildStatsSection("Global Cases", seriesData, currentIndex);
+
+  // Set the global cases on update
+  chart.on("timelinechanged", ({ currentIndex }) => {
+    buildStatsSection("Global Cases", seriesData, currentIndex);
+  });
+  chart.on("mouseover", e => {
+    // Hopefully this is enough to catch most errors
+    if (e && e.data) {
+      statsSection(e.data);
+    }
+  });
   window.onresize = function() {
     chart.resize();
   };

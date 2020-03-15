@@ -26,6 +26,7 @@ export function aboutSection() {
       aboutBox.classList.remove("selectable");
       var aboutContent = document.createElement("div");
       aboutContent.id = "about-content";
+      aboutContent.classList.add("content");
       aboutContent.append(
         textPlusLink("Developer: Remi Marchand", {
           link: "https://remimstr.com",

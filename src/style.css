@@ -7,6 +7,31 @@ body {
 	width: 100%;
 }
 
+.selectable:hover {
+	border: 1px;
+	height: 30px;
+}
+
+h4 {
+	font-family: sans-serif;
+	color: black;
+	margin: 0px 10px;
+}
+
+.content {
+	margin: 0px 10px;
+	font-family: sans-serif;
+}
+
+.content > .content-line {
+	display: flex;
+	justify-content: space-between;
+}
+
+.content-line > .right-item {
+	margin-left: 10px;
+}
+
 #about {
 	position: absolute;
 	bottom: 0;
@@ -17,27 +42,12 @@ body {
 	cursor: pointer !important;
 }
 
-.selectable:hover {
-	border: 1px;
-	height: 30px;
-}
-
-#about > h4 {
-	font-family: sans-serif;
-	color: black;
-	margin: 0px 10px;
-}
-
-#about-content {
-	margin: 0px 10px;
-	font-family: sans-serif;
-}
-
-#about-content > .content-line {
-	display: flex;
-	justify-content: space-between;
-}
-
-.content-line> a {
-	margin-left: 10px;
+#stats {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 10px;
+	padding: 5px 0px;
+	background-color: lightgrey;
+	border-radius: 4px;
 }

@@ -27,13 +27,13 @@ export function aboutSection() {
       var aboutContent = document.createElement("div");
       aboutContent.id = "about-content";
       aboutContent.append(
-        textPlusLink("Developed By: Remi Marchand", {
+        textPlusLink("Developer: Remi Marchand", {
           link: "https://remimstr.com",
           linkText: "website"
         })
       );
       aboutContent.append(
-        textPlusLink("Data From: John Hopkins", {
+        textPlusLink("Data: John Hopkins (Updated Daily)", {
           link: "https://github.com/CSSEGISandData/COVID-19",
           linkText: "github"
         })

@@ -20,7 +20,8 @@ function produceOption(data) {
       },
       pieces: [
         { min: 0, max: 10 },
-        { min: 100, max: 1000 },
+        { min: 10, max: 100 },
+        { min: 100, max: 1000, label: "100 - 1k" },
         { min: 1000, max: 10000, label: "1k - 10k" },
         { min: 10000, max: 100000, label: "10k - 100k" },
         { min: 100000, max: 1000000, label: "100k - 1M" },
@@ -28,9 +29,12 @@ function produceOption(data) {
       ],
       inRange: {
         color: [
-          "rgba(245, 171, 53, 0.9)",
-          "rgba(241, 90, 34, 0.9)",
-          "rgba(240, 52, 52, 0.9)"
+          "#FFCD2E",
+          "#FF9C00",
+          "#FF7701",
+          "#E24800",
+          "#CC2200",
+          "#860200"
         ]
       },
       zlevel: 11

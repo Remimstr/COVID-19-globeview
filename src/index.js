@@ -9,6 +9,7 @@ import Starfield from "./starfield.jpg";
 import "./serviceWorkerRegistration.js";
 import { aboutSection } from "./aboutSection.js";
 import { returnDataSeries } from "./getData.js";
+import "./polyfills.js";
 import "./style.css";
 
 function produceOption(data) {

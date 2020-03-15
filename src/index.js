@@ -9,9 +9,12 @@ import Starfield from "./starfield.jpg";
 import "./serviceWorkerRegistration.js";
 import { aboutSection } from "./aboutSection.js";
 import { statsSection } from "./statsSection.js";
+import { controlsSection } from "./controlsSection.js";
 import { returnDataSeries } from "./getData.js";
 import "./polyfills.js";
 import "./style.css";
+
+const GLOBAL_LABEL = "Global Cases";
 
 function produceOption(data) {
   return {
@@ -72,7 +75,7 @@ function injectToBaseOption(seriesNames, currentIndex, options) {
       },
       timeline: {
         right: 5,
-        top: 150,
+        top: 180,
         bottom: 120,
         width: 55,
         axisType: "category",
@@ -128,6 +131,13 @@ function dataScaleCalculation(point) {
   return 0;
 }
 
+function searchInDataSet(name, dataSet) {
+  if (name === GLOBAL_LABEL) return;
+  for (var d of dataSet) {
+    if (d.name === name) return d;
+  }
+}
+
 function buildStatsSection(name, seriesData, index) {
   const reduceSeriesData = seriesData => name =>
     seriesData.reduce((acc, curr) => acc + curr[name], 0);
@@ -142,6 +152,25 @@ function buildStatsSection(name, seriesData, index) {
 
 window.addEventListener("load", async () => {
   aboutSection();
+  var controls = controlsSection();
+  var shouldClick = 0;
+  var name = GLOBAL_LABEL;
+
+  try {
+    var hoverRadio = controls.querySelectorAll("#hover-radio")[0];
+    var clickRadio = controls.querySelectorAll("#click-radio")[0];
+    var resetGlobal = controls.querySelectorAll("#global-reset")[0];
+
+    hoverRadio.addEventListener("change", () => (shouldClick = 0));
+    clickRadio.addEventListener("change", () => (shouldClick = 1));
+    resetGlobal.addEventListener("click", () => {
+      name = GLOBAL_LABEL;
+      buildStatsSection(name, seriesData, currentIndex);
+    });
+  } catch {
+    //do nothing
+  }
+
   const [seriesNames, seriesData] = await returnDataSeries();
   const currentIndex = seriesNames.length - 1;
   // const globalCases =
@@ -150,15 +179,27 @@ window.addEventListener("load", async () => {
   chart.setOption(injectToBaseOption(seriesNames, currentIndex, options));
 
   // Build the global cases initially
-  buildStatsSection("Global Cases", seriesData, currentIndex);
+  buildStatsSection(name, seriesData, currentIndex);
 
   // Set the global cases on update
   chart.on("timelinechanged", ({ currentIndex }) => {
-    buildStatsSection("Global Cases", seriesData, currentIndex);
+    const dataFindings = searchInDataSet(name, seriesData[currentIndex]);
+    if (dataFindings) statsSection(dataFindings);
+    else {
+      name = GLOBAL_LABEL;
+      buildStatsSection(name, seriesData, currentIndex);
+    }
   });
   chart.on("mouseover", e => {
     // Hopefully this is enough to catch most errors
-    if (e && e.data) {
+    if (e && e.data && shouldClick === 0) {
+      if (e.data.name) name = e.data.name;
+      statsSection(e.data);
+    }
+  });
+  chart.on("click", e => {
+    if (e && e.data && shouldClick === 1) {
+      if (e.data.name) name = e.data.name;
       statsSection(e.data);
     }
   });

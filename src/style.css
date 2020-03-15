@@ -42,12 +42,53 @@ h4 {
 	cursor: pointer !important;
 }
 
-#stats {
+#data-box {
 	position: absolute;
 	top: 0;
 	right: 0;
 	margin: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+#stats {
 	padding: 5px 0px;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	background-color: lightgrey;
+}
+
+#controls {
+	/* width: 140px; */
 	background-color: lightgrey;
 	border-radius: 4px;
+}
+
+#controls-section {
+	font-size: 15px;
+	margin: 4px;
+	padding: 4px;
+	display: flex;
+	flex-direction: column;
+}
+
+button {
+	margin-top: 4px;
+	background-color: white;
+	border: 2px solid lightgrey;
+	border-radius: 4px;
+	cursor: pointer !important;
+}
+
+button:hover {
+	color: red;
+}
+
+button:active {
+	color: black;
+}
+
+a {
+	margin-left: 5px;
 }

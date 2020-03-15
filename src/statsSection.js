@@ -15,6 +15,7 @@ export function statsSection({ name, confirmed, recovered, deaths }) {
   var statsSection = document.getElementById("stats");
   var statsContent = document.getElementById("stats-content");
   if (
+  	statsSection &&
     name &&
     typeof confirmed === "number" &&
     typeof recovered === "number" &&

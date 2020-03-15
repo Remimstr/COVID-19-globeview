@@ -68,21 +68,13 @@ function jsonToDataObjs(json) {
   });
 }
 
-// TODO: Remove this
-let headers = new Headers();
-headers.append(
-  "Authorization",
-  `Basic ${btoa("remimstr" + ":" + "315fb24d12c4858fef25193fdcaa57cf2a3ce08a")}`
-);
-// TODO DON'T COMMIT
-
 export async function returnDataSeries() {
   const queryDates = getDates(
     new Date("March 1, 2020"),
     new Date().setDate(new Date().getDate() - 1)
   );
   const promiseList = queryDates.map(d =>
-    fetch(`${BASE_ENDPOINT + d}.csv`, { headers })
+    fetch(`${BASE_ENDPOINT + d}.csv`)
   );
   const results = await Promise.allSettled(promiseList);
   var resultsArray = [];

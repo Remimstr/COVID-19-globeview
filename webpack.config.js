@@ -25,7 +25,10 @@ const config = function(mode) {
           exclude: /(node_modules|bower_components)/,
           use: {
             loader: "html-loader",
-            options: {}
+            options: {
+              removeComments:true,
+              minimize:true
+            }
           }
         },
         {
@@ -49,7 +52,7 @@ const config = function(mode) {
         ignored: /node_modules/
       },
       contentBase: "public",
-      compress: true,
+      // compress: true,
       hot: true,
       port: process.env.CVA_PORT
     }

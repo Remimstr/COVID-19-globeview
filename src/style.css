@@ -1,5 +1,5 @@
 body {
-	margin: 0px;
+	margin: 0;
 }
 
 #app {
@@ -14,12 +14,12 @@ body {
 
 h4 {
 	font-family: sans-serif;
-	color: black;
-	margin: 0px 10px;
+	color: white;
+	margin: 0 10px;
 }
 
 .content {
-	margin: 0px 10px;
+	margin: 0 10px;
 	font-family: sans-serif;
 }
 
@@ -35,34 +35,43 @@ h4 {
 #about {
 	position: absolute;
 	bottom: 0;
-	right: 0;
-	margin: 0px 10px;
-	background-color: lightgrey;
-	border-radius: 4px 4px 0px 0px;
+	left: 0;
+	margin: 0 10px;
+	background-color: transparent;
+  color:lightgrey;
+  border:1px solid lightgrey;
+	border-radius: 4px 4px 0 0;
 	cursor: pointer !important;
 }
 
 #data-box {
 	position: absolute;
-	top: 0;
-	right: 0;
+  top: 5%;
+  left: 0;
 	margin: 10px;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
+  color:#fff;
+  background: transparent;
 }
 
 #stats {
-	padding: 5px 0px;
-	border-radius: 4px;
+  width: 200px;
+  padding: 5px 0;
 	margin-bottom: 10px;
-	background-color: lightgrey;
+  color:white;
+  border: 1px solid white;
+  border-radius: 4px;
+	background-color: transparent;
 }
 
 #controls {
-	/* width: 140px; */
-	background-color: lightgrey;
-	border-radius: 4px;
+	 width: 200px; 
+	/*background-color: transparent;*/
+  color:white;
+  border: 1px solid white;
+  border-radius: 4px;
 }
 
 #controls-section {
@@ -75,14 +84,16 @@ h4 {
 
 button {
 	margin-top: 4px;
-	background-color: white;
-	border: 2px solid lightgrey;
+	background-color: transparent;
+	border: 1px solid white;
 	border-radius: 4px;
 	cursor: pointer !important;
+  color: white;
 }
 
 button:hover {
-	color: red;
+	color:  black;
+  background-color:white;
 }
 
 button:active {

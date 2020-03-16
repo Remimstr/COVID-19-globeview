@@ -29,18 +29,10 @@ function produceOption(data) {
         { min: 100, max: 1000, label: "100 - 1k" },
         { min: 1000, max: 10000, label: "1k - 10k" },
         { min: 10000, max: 100000, label: "10k - 100k" },
-        { min: 100000, max: 1000000, label: "100k - 1M" },
-        { min: 10000000, label: "1M+" }
+        { min: 100000, max: 1000000, label: "100k+" }
       ],
       inRange: {
-        color: [
-          "#FFCD2E",
-          "#FF9C00",
-          "#FF7701",
-          "#E24800",
-          "#CC2200",
-          "#860200"
-        ]
+        color: ["#B3D4DC", "#A5BECB", "#2B557A"]
       },
       zlevel: 11
     },

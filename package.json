@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack-cli",
-    "start:dev": "NODE_ENV=development webpack-dev-server",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.7",
     "babel-loader": "^8.0.6",
+    "cross-env": "^7.0.2",
     "css-loader": "^2.0.0",
     "file-loader": "^5.1.0",
     "style-loader": "^0.23.0",

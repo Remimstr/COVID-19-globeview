@@ -67,8 +67,8 @@ function injectToBaseOption(seriesNames, currentIndex, options) {
       },
       timeline: {
         right: 5,
-        top: 180,
-        bottom: 120,
+        top: 0,
+        bottom: 10,
         width: 55,
         axisType: "category",
         data: seriesNames,
@@ -93,25 +93,15 @@ function injectToBaseOption(seriesNames, currentIndex, options) {
       },
       globe: {
         viewControl: {
-          autoRotate: false
+          autoRotate: true,
+          autoRotateAfterStill: 5,
+          distance: 300
         },
-        shading: "realistic",
+        shading: "color",
         baseTexture: WorldTopology,
         heightTexture: WorldTopology,
         displacementScale: 0.04,
-        environment: Starfield,
-        realisticMaterial: {
-          roughness: 0.9
-        },
-        light: {
-          ambient: {
-            intensity: 0.8,
-            shadow: true
-          },
-          main: {
-            intensity: 0.8
-          }
-        }
+        environment: Starfield
       }
     },
     options

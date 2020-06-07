@@ -3,6 +3,7 @@
  */
 
 import echarts from "echarts";
+import { scatter3D } from "echarts-gl";
 import WorldTopology from "./world.topo.bathy.200401.jpg";
 import Starfield from "./starfield.jpg";
 import "./serviceWorkerRegistration.js";

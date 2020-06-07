@@ -3,7 +3,6 @@
  */
 
 import echarts from "echarts";
-import { scatter3D } from "echarts-gl";
 import WorldTopology from "./world.topo.bathy.200401.jpg";
 import Starfield from "./starfield.jpg";
 import "./serviceWorkerRegistration.js";
@@ -61,6 +60,10 @@ function injectToBaseOption(seriesNames, currentIndex, options) {
       backgroundColor: "#000",
       title: {
         text: "COVID-19 Globe View",
+        subtext: "March 01, 2020 - March 21, 2020",
+        subtextStyle: {
+          color: "lightgrey"
+        },
         textStyle: {
           color: "lightgrey"
         }
@@ -98,7 +101,6 @@ function injectToBaseOption(seriesNames, currentIndex, options) {
         shading: "realistic",
         baseTexture: WorldTopology,
         heightTexture: WorldTopology,
-        displacementScale: 0.04,
         environment: Starfield,
         realisticMaterial: {
           roughness: 0.9

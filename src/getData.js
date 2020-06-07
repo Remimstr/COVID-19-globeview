@@ -1,8 +1,3 @@
-import papa from "papaparse";
-
-const BASE_ENDPOINT =
-  "https://api.github.com/repos/CSSEGISandData/COVID-19/contents/csse_covid_19_data/csse_covid_19_daily_reports/";
-
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -15,7 +10,7 @@ function getDates(startDate, stopDate) {
       "0" + date.getDate()
     ).slice(-2)}-${date.getFullYear()}`;
   }
-  var dateArray = new Array();
+  var dateArray = [];
   var currentDate = startDate;
   while (currentDate < stopDate) {
     dateArray.push(formatDate(new Date(currentDate)));
@@ -24,37 +19,17 @@ function getDates(startDate, stopDate) {
   return dateArray;
 }
 
-async function parseCsv(csv) {
-  return new Promise(function(complete, error) {
-    papa.parse(csv, { complete, error });
-  });
-}
-
-function processCSVData(csv) {
-  var allTextLines = csv.split(/\r\n|\n/);
-  var lines = [];
-  for (var i = 0; i < allTextLines.length; i++) {
-    var data = allTextLines[i].split(",");
-    var tarr = [];
-    for (var j = 0; j < data.length; j++) {
-      tarr.push(data[j]);
-    }
-    lines.push(tarr);
-  }
-  return lines;
-}
-
 function jsonToDataObjs(json) {
   return json.slice(1, -1).map(entry => {
     // longitude, latitude, count
-    const province = entry[0];
-    const country = entry[1];
-    const longitude = parseFloat(entry[7]);
-    const latitude = parseFloat(entry[6]);
+    const province = entry["Province/State"];
+    const country = entry["Country/Region"];
+    const longitude = parseFloat(entry["Longitude"]);
+    const latitude = parseFloat(entry["Latitude"]);
 
-    const confirmed = parseInt(entry[3]);
-    const deaths = parseInt(entry[4]);
-    const recovered = parseInt(entry[5]);
+    const confirmed = parseInt(entry["Confirmed"]);
+    const deaths = parseInt(entry["Deaths"]);
+    const recovered = parseInt(entry["Recovered"]);
 
     const sum = confirmed + deaths + recovered;
 
@@ -71,24 +46,20 @@ function jsonToDataObjs(json) {
 export async function returnDataSeries() {
   const queryDates = getDates(
     new Date("March 1, 2020"),
-    new Date().setDate(new Date().getDate() - 1)
+    new Date("March 22, 2020")
   );
-  const promiseList = queryDates.map(d =>
-    fetch(`${BASE_ENDPOINT + d}.csv`)
-  );
-  const results = await Promise.allSettled(promiseList);
-  var resultsArray = [];
+  
+  console.log("This is queryDates", queryDates);
+  let results = queryDates.map((date) => (
+    require(`../data/${date}.json`)
+  ));
+  
+  let resultsArray = [];
 
-  for await (const response of results) {
+  for (const result of results) {
     // TODO: Add better error handling here
-    if (response.status === "fulfilled" && response.value.status < 300) {
-      const data = await response.value.json();
-      const csvContent = await parseCsv(atob(data.content));
-      csvContent.errors.forEach(error =>
-        console.log(`CSV processing error: ${error}`)
-      );
-      resultsArray.push(jsonToDataObjs(csvContent.data.slice(0)));
-    }
+    resultsArray.push(jsonToDataObjs(result.slice(0)));
   }
+  
   return [queryDates, resultsArray];
 }
